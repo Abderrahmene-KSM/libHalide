@@ -207,11 +207,12 @@ The script will compiles and run the two programes and display the results , to 
  ./script.sh 
  ```
  
- The script will also save the final results in files , and compare between them.
-. Finnaly, if you don't have halide installed in you system you can use this command; it will download the important files to compile and run the program ( The global size is 223MB) :
+. Finally, if you don't have halide installed in you system you can use this command; it will download the important files to compile and run the program ( The global size is 223MB) :
  ```bash
  ./script.sh -d 
  ```
+ 
+  The script will also save the final results in files , and compare between them.
  
  
 
