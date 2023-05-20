@@ -5,15 +5,9 @@ In this project , I provide two implementations of the function SGEMV() from BLA
 ## Table of Contents
 
 - [Building Halide](#Building_Halide)
-- [Usage](#usage)
-- [Documentation](#documentation)
-- [Configuration](#configuration)
-- [Contributing](#contributing)
-- [Testing](#testing)
-- [License](#license)
-- [Changelog](#changelog)
-- [Credits](#credits)
-- [Contact](#contact)
+- [About the function](#About_the_function)
+- [How to use the script](#How_to_use_the_script)
+
 
 ## Building Halide
 
@@ -108,38 +102,115 @@ I solved this problem by adding this parameter to the command of compilation:
 -lz -ltinfo
 ```
 
-## Usage
+## About the function
 
-Detailed instructions on how to use the project. Include examples or code snippets to demonstrate common use cases. Explain any necessary configuration or environment variables.
+SGEMV() is a level2 function in BLAS library , the following description it taken from https://netlib.org/blas/:  
+#### Purpose:
 
-## Documentation
+     SGEMV  performs one of the matrix-vector operations
 
-If your project has extensive documentation, provide a brief description here and provide links to the relevant resources, such as user guides, API references, or wiki pages.
+        y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
 
-## Configuration
+     where alpha and beta are scalars, x and y are vectors and A is an
+     m by n matrix.
 
-Explain how to configure the project, including information about configuration files, environment variables, or any other relevant settings.
+#### Parameters
+    [in]	TRANS	
 
-## Contributing
+              TRANS is CHARACTER*1
+               On entry, TRANS specifies the operation to be performed as
+               follows:
 
-If you want to encourage contributions from the community, outline guidelines for how others can contribute to the project. Specify any rules or processes for submitting pull requests or reporting issues.
+                  TRANS = 'N' or 'n'   y := alpha*A*x + beta*y.
 
-## Testing
+                  TRANS = 'T' or 't'   y := alpha*A**T*x + beta*y.
 
-Explain how to run the tests and provide any necessary details about the testing framework or environment.
+                  TRANS = 'C' or 'c'   y := alpha*A**T*x + beta*y.
 
-## License
+    [in]	M	
 
-Specify the project's license and provide a copy of the license file if applicable. Make sure to comply with any licensing requirements.
+              M is INTEGER
+               On entry, M specifies the number of rows of the matrix A.
+               M must be at least zero.
 
-## Changelog
+    [in]	N	
 
-Highlight notable changes in each version of the project. You can use headings, bullet points, or tables to present the changelog.
+              N is INTEGER
+               On entry, N specifies the number of columns of the matrix A.
+               N must be at least zero.
 
-## Credits
+    [in]	ALPHA	
 
-Acknowledge any external libraries, tools, or resources that were used in the project. Give proper credit to the original authors or contributors.
+              ALPHA is REAL
+               On entry, ALPHA specifies the scalar alpha.
 
-## Contact
+    [in]	A	
 
-Provide contact information for the project maintainer or team, such as email addresses or links to relevant communication channels.
+              A is REAL array, dimension ( LDA, N )
+               Before entry, the leading m by n part of the array A must
+               contain the matrix of coefficients.
+
+    [in]	LDA	
+
+              LDA is INTEGER
+               On entry, LDA specifies the first dimension of A as declared
+               in the calling (sub) program. LDA must be at least
+               max( 1, m ).
+
+    [in]	X	
+
+              X is REAL array, dimension at least
+               ( 1 + ( n - 1 )*abs( INCX ) ) when TRANS = 'N' or 'n'
+               and at least
+               ( 1 + ( m - 1 )*abs( INCX ) ) otherwise.
+               Before entry, the incremented array X must contain the
+               vector x.
+
+    [in]	INCX	
+
+              INCX is INTEGER
+               On entry, INCX specifies the increment for the elements of
+               X. INCX must not be zero.
+
+    [in]	BETA	
+
+              BETA is REAL
+               On entry, BETA specifies the scalar beta. When BETA is
+               supplied as zero then Y need not be set on input.
+
+    [in,out]	Y	
+
+              Y is REAL array, dimension at least
+               ( 1 + ( m - 1 )*abs( INCY ) ) when TRANS = 'N' or 'n'
+               and at least
+               ( 1 + ( n - 1 )*abs( INCY ) ) otherwise.
+               Before entry with BETA non-zero, the incremented array Y
+               must contain the vector y. On exit, Y is overwritten by the
+               updated vector y.
+
+    [in]	INCY	
+
+              INCY is INTEGER
+               On entry, INCY specifies the increment for the elements of
+               Y. INCY must not be zero.
+
+
+## How to use the script
+
+The script will compiles and run the two programes and display the results , to use it First move to the script directory please:
+ . If you have halide installed in your system and you can provide the path you can use the command:
+ ```bash
+ ./script.sh -p <path_to_the_halide_directory>      # IMPORTANT:please do not include '\' at the end of the path 
+ ```
+. If you have halide installed in your system but you cannot provide the path you can directy use the command without any parameter, the script will try to find the path (this does not work in all cases):
+ ```bash
+ ./script.sh 
+ ```
+. Finnaly, if you don't have halide installed in you system you can use this command; it will download the important files to compile and run the program ( The global size is 223MB) :
+ ```bash
+ ./script.sh -d 
+ ```
+ 
+ 
+
+
